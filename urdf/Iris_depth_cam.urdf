@@ -1,0 +1,20 @@
+<!--Iris_depth_camera URDF -->
+<!--TODO: change joints to make it fixed-->
+<robot name="Iris_depth_cam">
+
+  <link name="base_link" />
+  <link name="camera_link"/>
+  <link name="imu_link" />
+ 
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0.1 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>
