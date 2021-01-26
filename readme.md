@@ -104,13 +104,56 @@ I got the ply/pcd file generated `2021-01-18-09-12-19.bag_points.pcd`
 
 #### Visualization of the point cloud
 
+I viewed the ply file using meshlab. For pcd I'll try to reinstall pcd viewer later.
 
+## Working on an offline data
+
+1. I launched the drone in the willowgrage envirnoment
+2. record a rosbag for the imu, depth 
+
+`rostopic info 2021-01-25-12-00-34.bag`
+```bash
+path:        2021-01-25-12-00-34.bag
+version:     2.0
+duration:    3:58s (238s)
+start:       Jan 01 1970 03:01:04.52 (64.52)
+end:         Jan 01 1970 03:05:02.81 (302.81)
+size:        468.2 MB
+messages:    16854
+compression: none [618/618 chunks]
+types:       sensor_msgs/Imu         [6a62c6daae103f4ff57a132d6f95cec2]
+             sensor_msgs/PointCloud2 [1158d486dd51d683ce2f1be655c3c181]
+topics:      /mavros/imu/data      11916 msgs    : sensor_msgs/Imu
+```
+
+3. validate my rosbag
+
+`cartographer_rosbag_validate -bag_filename 2021-01-25-12-00-34.bag`
+
+some warnings we'll fix it later
+
+4. I make a copy of demo_backpack_3d.launch and I call it "offline_robot.launch"
+5. pbstream file is generated
+
+```
+rosservice call /write_state "{filename: '${HOME}/Downloads/b3-2016-04-05-14-14-00.bag.pbstream', include_unfinished_submaps: "true"}"
+```
+
+6. The assest writer to generate the ply file
+
+```
+roslaunch cartographer_ros assets_writer_myrobot.launch bag_filenames:=${HOME}/willow.bag pose_graph_filename:=${HOME}/willow.bag.pbstream
+```
+
+I was able to view the file using the meshlab
 
 ## errors and warnings
 
 ```
 [ WARN] [1610626432.369576423, 125.792000000]: Could not compute submap fading: Could not find a connection between 'map' and 'base_link' because they are not part of the same tree.Tf has two or more unconnected trees.
 ```
+
+when `cargo build --release` I got an error
 
 ## TODO
 

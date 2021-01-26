@@ -82,8 +82,8 @@ options = {
     },
     
     {
-        action = "write_pcd",
-        filename = "points.pcd",
+        action = "write_ply",
+        filename = "points.ply",
     },
   }
 }
